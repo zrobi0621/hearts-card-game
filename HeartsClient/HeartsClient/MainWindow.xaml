@@ -1,0 +1,72 @@
+﻿<Window x:Class="HeartsClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HeartsClient"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Fekete Macska" Height="900" Width="1200"
+        Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="0" Source="/Resources/CardTable.jpg"></Image>
+
+        <!-- TABLE-->      
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="8*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+                        
+            <!-- TOP CARDS -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+                <Image x:Name="CardsTop" Source="/Resources/CardsBack.jpg" Width="400"></Image>
+            </StackPanel>
+            <!-- LEFT CARDS -->
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
+                <Image x:Name="CardsLeft" Source="/Resources/CardsBackRotated.jpg" Height="400"></Image>
+            </StackPanel>
+            <!-- LEFT CARDS -->
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center">
+                <Image x:Name="CardsRight" Source="/Resources/CardsBackRotated.jpg" Height="400"></Image>
+            </StackPanel>
+            <!-- BOTTOM CARDS -->
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
+                <Image x:Name="Card0" Source="/Resources/Cards/Treff1.jpg" Height="100"></Image>
+                <Image x:Name="Card1" Source="/Resources/Cards/Treff2.jpg" Height="100"></Image>
+                <Image x:Name="Card2" Source="/Resources/Cards/Treff3.jpg" Height="100"></Image>
+                <Image x:Name="Card3" Source="/Resources/Cards/Treff4.jpg" Height="100"></Image>
+                <Image x:Name="Card4" Source="/Resources/Cards/Treff5.jpg" Height="100"></Image>
+                <Image x:Name="Card5" Source="/Resources/Cards/Treff6.jpg" Height="100"></Image>
+                <Image x:Name="Card6" Source="/Resources/Cards/Treff7.jpg" Height="100"></Image>
+                <Image x:Name="Card7" Source="/Resources/Cards/Treff8.jpg" Height="100"></Image>
+                <Image x:Name="Card8" Source="/Resources/Cards/Treff9.jpg" Height="100"></Image>
+                <Image x:Name="Card9" Source="/Resources/Cards/Treff10.jpg" Height="100"></Image>
+                <Image x:Name="Card10" Source="/Resources/Cards/Treff11.jpg" Height="100"></Image>
+                <Image x:Name="Card11" Source="/Resources/Cards/Treff12.jpg" Height="100"></Image>
+                <Image x:Name="Card12" Source="/Resources/Cards/Treff13.jpg" Height="100"></Image>
+            </StackPanel>
+            
+
+        </Grid>
+        <!-- BUTTONS -->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 0" Grid.Row="1">
+            <Button Margin="10" x:Name="ConnectButton" Height="70" Width="150" FontSize="20" Click="ConnectButton_Click" Content="Csatlakozás"></Button>
+            <Button Margin="10" x:Name="GiveUpButton" Height="70" Width="150" FontSize="20" Click="GiveUpButton_Click" Content="Feladom"></Button>
+            <TextBox x:Name="textBlock1" Height="120" Width="500" BorderThickness="2" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+            <Button Margin="10" x:Name="RetryButton" Height="70" Width="150" FontSize="20" Click="RetryButton_Click" Content="Újra"></Button>
+            <Button Margin="10" x:Name="EndGameButton" Height="70" Width="150" FontSize="20" Click="EndGameButton_Click" Content="Vége"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
