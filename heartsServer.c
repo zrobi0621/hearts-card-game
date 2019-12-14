@@ -29,6 +29,7 @@
 	
 	bool quitGame = false;
 	bool isStarted = false;		
+	bool isP1First = false;
 	int whoseTurn = 2;
 	int firstPlayer = 1;	
 
@@ -155,6 +156,7 @@ void sendMessage(char msg[], int client)
 
 void receiveMessage(int client, int turn)
 {			
+	memset(recMessage, 0, BUFFERSIZE+1);
 	strcpy(recMessage, "");
  	rcvsize = recv(client, recMessage, bytes, 0);
 	 
@@ -164,7 +166,7 @@ void receiveMessage(int client, int turn)
     }
 	else
 	{		
-		printf("[!]Error in \"receiveMessage()\" from %d\n", &client);		
+		printf("[!]Error in \"receiveMessage()\"!\n");		
 	}
 }
 
@@ -188,12 +190,12 @@ void buildTurnMessage(int player, int p1Pick, int p2Pick, int p3Pick, int p4Pick
 	if(player == 1)
 	{
 		sprintf(message,"%s.%d.%d.%d","T1",p2Pick,p3Pick,p4Pick);
-		printf("       %s.%d.%d.%d","T1",p2Pick,p3Pick,p4Pick);
+		printf("       %s.%d.%d.%d\n","T1",p2Pick,p3Pick,p4Pick);
 	}
 	else if(player == 2)
 	{
 		sprintf(message,"%s.%d.%d.%d","T2",p1Pick,p3Pick,p4Pick);
-		printf("       %s.%d.%d.%d","T2",p1Pick,p3Pick,p4Pick);
+		printf("       %s.%d.%d.%d\n","T2",p1Pick,p3Pick,p4Pick);
 	}	
 }
 
@@ -235,35 +237,19 @@ void compareMessage(char * receivedMsg, int turn)
 		buildCardsMessage(1);
 		sendMessage(message,clientSocket);
 		buildCardsMessage(2);
-		sendMessage(message,clientSocket2);		
-
-		if (whoseTurn == 3 || whoseTurn == 4)
-		{		
-			pickCard(3);
-			pickCard(4);
-			whoseTurn = 4;
-		}
-
-	/*else if(whoseTurn == 1)
-		{
-			//waitForP1Pick
-			//SendP2 P1Pick
-		}
-		else if(whoseTurn == 2)
-		{
-			//waitForP2Pick
-			//SendP1 P2Pick,P3Pick,P4Pick
-		}*/		
+		sendMessage(message,clientSocket2);
 	}
 	else if(strcmp(receivedMsg, "FELADOM") == 0)
 	{
 		if(turn == 1)
 		{
-			printf(" [-]Az első játékos feladta.\n");	
+			printf(" [-]Az első játékos feladta.\n");
+			sendMessage("FELADOM",clientSocket2);		
 		}
 		else
 		{
 			printf(" [-]A második játékos feladta.\n");	
+			sendMessage("FELADOM",clientSocket);	
 		}
 	}
 	else if(strcmp(receivedMsg, "UJRA") == 0)
@@ -271,21 +257,25 @@ void compareMessage(char * receivedMsg, int turn)
 		if(turn == 1)
 		{
 			printf(" [-]Az első játékos újrakezdené.\n");	
+			sendMessage("UJRA",clientSocket2);	
 		}
 		else
 		{
 			printf(" [-]A második játékos újrakezdené.\n");	
+			sendMessage("UJRA",clientSocket);	
 		}
 	}
 	else if(strcmp(receivedMsg, "VEGE") == 0)
 	{
 		if(whoseTurn == 1)
 		{
-			printf(" [-]Az első játékos kilépett.\n");			
+			printf(" [-]Az első játékos kilépett.\n");		
+			sendMessage("VEGE",clientSocket2);	
 		}
 		else
 		{
 			printf(" [-]A második játékos kilépett.\n");	
+			sendMessage("VEGE",clientSocket);	
 		}
 
 		quitGame = true;
@@ -304,13 +294,17 @@ void compareMessage(char * receivedMsg, int turn)
 		if (strcmp(token,"P1P") == 0)
 		{
 			token = strtok(NULL,".");
-			printf("P1P: %s",token);
+			printf("P1P:%s\n",token);
+			p1PickedCard = atoi(token);
+			buildTurnMessage(2,p1PickedCard,p2PickedCard,p3PickedCard,p4PickedCard);
+			sendMessage(message,clientSocket2);
 			whoseTurn = 2;
 		}
 		else if(strcmp(token,"P2P") == 0)
 		{
 			token = strtok(NULL,".");
-			printf("P2P: %s",token);
+			printf("P2P:%s\n",token);
+			p2PickedCard = atoi(token);
 			whoseTurn = 3;
 		}								
 	}	
@@ -351,19 +345,21 @@ void main(){
 	{
 		if (whoseTurn == 1)
 		{
-			printf("[ReceiveP1]\n");
-			printf("%s",recMessage);
+			printf("[ReceiveP1:]\n");
+			printf("%s\n",recMessage);
 			receiveMessage(clientSocket, whoseTurn);
 		}
 		else if (whoseTurn == 2)
 		{
-			printf("[ReceiveP2]\n");
+			printf("[ReceiveP2:]\n");
 			printf("%s",recMessage);
 			receiveMessage(clientSocket2, whoseTurn);
 		}					
-		else if (whoseTurn == 4)
+		else
 		{
-			printf("[SendP1]\n");
+			printf("[SendP1:]\n");		
+			pickCard(3);
+			pickCard(4);					
 			buildTurnMessage(1,p1PickedCard,p2PickedCard,p3PickedCard,p4PickedCard);
 			sendMessage(message,clientSocket);
 			whoseTurn = 1;

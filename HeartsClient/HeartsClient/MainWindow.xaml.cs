@@ -83,8 +83,7 @@ namespace HeartsClient
         }
 
         void SendMessage(string message)
-        {
-            
+        {            
             textBlock1.Text += message + "\n";
             byte[] msg = Encoding.UTF8.GetBytes(message);                        
             int bytesSent = client.Send(msg);
@@ -113,7 +112,7 @@ namespace HeartsClient
                 p2PickedCard = int.Parse(token[1]);
                 p3PickedCard = int.Parse(token[2]);
                 p4PickedCard = int.Parse(token[3]);
-                textBlock1.Text += "T1: " + token[1] + " " + token[2] + " " + token[3];
+                textBlock1.Text += "T1: " + token[1] + " " + token[2] + " " + token[3]+"\n";
                 PickedCards();
             }
             else if (token[0].Equals("T2"))
@@ -121,8 +120,47 @@ namespace HeartsClient
                 p1PickedCard = int.Parse(token[1]);
                 p3PickedCard = int.Parse(token[2]);
                 p4PickedCard = int.Parse(token[3]);
-                textBlock1.Text += "T2: " + token[1] + " " + token[2] + " " + token[3];
+                textBlock1.Text += "T2: " + token[1] + " " + token[2] + " " + token[3]+"\n";
                 PickedCards();
+            }
+            else if(token[0].Equals("VEGE"))
+            {
+                if (whoIam == 1)
+                {
+                    textBlock1.Text += "A 2.játékos kilépett, a játéknak VÉGE!";
+                    MessageBox.Show("A 2.játékos kilépett, a játéknak VÉGE!");
+                }
+                else if(whoIam == 2)
+                {
+                    textBlock1.Text += "Az 1.játékos kilépett, a játéknak VÉGE!";
+                    MessageBox.Show("Az 1.játékos kilépett, a játéknak VÉGE!");
+                }
+            }
+            else if (token[0].Equals("FELADOM"))
+            {
+                if (whoIam == 1)
+                {
+                    textBlock1.Text += "A 2.játékos feladta!";
+                    MessageBox.Show("A 2.játékos feladta!");
+                }
+                else if (whoIam == 2)
+                {
+                    textBlock1.Text += "Az 1.játékos feladta!";
+                    MessageBox.Show("Az 1.játékos feladta!");
+                }
+            }
+            else if (token[0].Equals("UJRA"))
+            {
+                if (whoIam == 1)
+                {
+                    textBlock1.Text += "A 2.játékos újrakezedené!";
+                    MessageBox.Show("A 2.játékos újrakezdené!");
+                }
+                else if (whoIam == 2)
+                {
+                    textBlock1.Text += "Az 1.játékos újrakezdené!";
+                    MessageBox.Show("Az 1.játékos újrakezdené!");
+                }
             }
         }
 
@@ -220,14 +258,21 @@ namespace HeartsClient
             Image image = sender as Image;
             string name = image.Name;
             name = name.Substring(4);
+            int pickedImage = int.Parse(name);
+
             if (whoIam == 1)
             {
-                SendMessage("P1P" + "." + myCards[int.Parse(name)]);
+                SendMessage("P1P" + "." + myCards[pickedImage]);
             }
             else if(whoIam == 2)
             {
-                SendMessage("P2P" + "." + myCards[int.Parse(name)]);
-            }            
+                SendMessage("P2P" + "." + myCards[pickedImage]);
+            }
+
+            image.Source = null;
+            CardBottom.Source = new BitmapImage(new Uri(@"/Resources/Cards/(" + myCards[pickedImage] + ").jpg", UriKind.Relative));
+
+            DelayedReceiveTask();
         }
     }
 }
