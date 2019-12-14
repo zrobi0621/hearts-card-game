@@ -1,7 +1,6 @@
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\bin\Debug\HeartsClient.exe.config
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\bin\Debug\HeartsClient.exe
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\bin\Debug\HeartsClient.pdb
-D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\HeartsClient.csprojAssemblyReference.cache
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\MainWindow.g.cs
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\App.g.cs
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\HeartsClient_MarkupCompile.cache
@@ -13,3 +12,4 @@ D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\H
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\HeartsClient.csproj.CoreCompileInputs.cache
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\HeartsClient.exe
 D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\HeartsClient.pdb
+D:\_Egyetem\7.félév\Háló\Fekete Macska\HeartsClient\HeartsClient\obj\Debug\HeartsClient.csprojAssemblyReference.cache

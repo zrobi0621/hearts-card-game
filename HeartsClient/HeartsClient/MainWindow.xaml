@@ -43,23 +43,48 @@
             </StackPanel>
             <!-- BOTTOM CARDS -->
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
-                <Image x:Name="Card0" Source="/Resources/Cards/Treff1.jpg" Height="100"></Image>
-                <Image x:Name="Card1" Source="/Resources/Cards/Treff2.jpg" Height="100"></Image>
-                <Image x:Name="Card2" Source="/Resources/Cards/Treff3.jpg" Height="100"></Image>
-                <Image x:Name="Card3" Source="/Resources/Cards/Treff4.jpg" Height="100"></Image>
-                <Image x:Name="Card4" Source="/Resources/Cards/Treff5.jpg" Height="100"></Image>
-                <Image x:Name="Card5" Source="/Resources/Cards/Treff6.jpg" Height="100"></Image>
-                <Image x:Name="Card6" Source="/Resources/Cards/Treff7.jpg" Height="100"></Image>
-                <Image x:Name="Card7" Source="/Resources/Cards/Treff8.jpg" Height="100"></Image>
-                <Image x:Name="Card8" Source="/Resources/Cards/Treff9.jpg" Height="100"></Image>
-                <Image x:Name="Card9" Source="/Resources/Cards/Treff10.jpg" Height="100"></Image>
-                <Image x:Name="Card10" Source="/Resources/Cards/Treff11.jpg" Height="100"></Image>
-                <Image x:Name="Card11" Source="/Resources/Cards/Treff12.jpg" Height="100"></Image>
-                <Image x:Name="Card12" Source="/Resources/Cards/Treff13.jpg" Height="100"></Image>
+                <Image x:Name="Card0" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card1" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card2" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card3" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card4" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card5" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card6" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card7" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card8" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card9" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card10" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card11" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
+                <Image x:Name="Card12" Source="/Resources/CardBack.jpg" Height="100" MouseLeftButtonDown="CardImage_Click" Cursor="Hand"></Image>
             </StackPanel>
-            
+            <Label x:Name="WhoIAmLabel" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="White" Content="X.játékos ->"></Label>
+            <Label x:Name="TLLabel" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="White" Content="X.játékos V"></Label>
+            <Label x:Name="TRLabel" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="White" Content="(-- X.játékos"></Label>
+            <Label x:Name="BRLabel" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="White" Content="X.játékos /\"></Label>
 
+            <!-- PICKED CARDS -->
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <!--TOP-->
+                <Image Grid.Column="1" Grid.Row="0" x:Name="CardTop"  Height="100"></Image>
+                <!--LEFT-->
+                <Image Grid.Column="0" Grid.Row="1" x:Name="CardLeft" Height="100"></Image>
+                <!--RIGHT-->
+                <Image Grid.Column="2" Grid.Row="1" x:Name="CardRight" Height="100"></Image>
+                <!--BOTTOM-->
+                <Image Grid.Column="1" Grid.Row="2" x:Name="CardBottom"  Height="100"></Image>
+            </Grid>
         </Grid>
+        
         <!-- BUTTONS -->
         <StackPanel Orientation="Horizontal" Margin="0 0 0 0" Grid.Row="1">
             <Button Margin="10" x:Name="ConnectButton" Height="70" Width="150" FontSize="20" Click="ConnectButton_Click" Content="Csatlakozás"></Button>

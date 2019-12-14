@@ -38,12 +38,20 @@
 	int p3Cards[13];
 	int p4Cards[13];
 
+	int p1PickedCard = 0;
+	int p2PickedCard = 0;
+	int p3PickedCard = 0;
+	int p4PickedCard = 0;
+
+bool include(int rCards[],int r);
 void shufflingCards();
+void whoseFirst();
 void sendMessage(char msg[], int client);
 void receiveMessage(int client, int turn);
 void compareMessage(char * receivedMsg, int turn);
-void whoseFirst();
-bool include(int rCards[],int r);
+void buildCardsMessage(int player);
+void buildTurnMessage(int player,int p1Pick, int p2Pick, int p3Pick, int p4Pick);
+void pickCard(int player);
 
 bool include(int rCards[],int r)
 {
@@ -65,11 +73,12 @@ void shuffligCards()
 	}	
 
     for(int i = 0; i < 52; i++){
-		RAND:int r = (rand() % 52) + 1;
+		RAND:;
+		int r = (rand() % 52) + 1;
 
 	   if (!include(cards,r))
 	   {
-			cards[i] = (rand() % 52) + 1;
+			cards[i] = r;
 	   }
 	   else
 	   {
@@ -113,6 +122,29 @@ void whoseFirst()
 			}						
 		}		
 	}	
+	whoseTurn = firstPlayer;
+}
+
+void pickCard(int player)
+{
+	int r = rand() % 13;
+
+	if (player == 1)
+	{
+		p1PickedCard = p1Cards[r];	
+	}
+	else if(player == 2)
+	{
+		p2PickedCard = p2Cards[r];	
+	}
+	else if(player == 3)
+	{
+		p3PickedCard = p3Cards[r];	
+	}
+	else if(player == 4)
+	{
+		p4PickedCard = p4Cards[r];	
+	}	
 }
 
 void sendMessage(char msg[], int client)
@@ -122,8 +154,10 @@ void sendMessage(char msg[], int client)
 }
 
 void receiveMessage(int client, int turn)
-{		
+{			
+	strcpy(recMessage, "");
  	rcvsize = recv(client, recMessage, bytes, 0);
+	 
 	if (rcvsize >= 0)
 	{
         compareMessage(recMessage, turn);
@@ -134,21 +168,51 @@ void receiveMessage(int client, int turn)
 	}
 }
 
+void buildCardsMessage(int player)
+{
+	int* msgCards;
+	if(player == 1)
+	{
+		msgCards = p1Cards;
+		sprintf(message,"%s.%d.%d.%d.%d.%d.%d.%d.%d.%d.%d.%d.%d.%d","C1",msgCards[0],msgCards[1],msgCards[2],msgCards[3],msgCards[4],msgCards[5],msgCards[6],msgCards[7],msgCards[8],msgCards[9],msgCards[10],msgCards[11],msgCards[12]);
+	}
+	else if(player == 2)
+	{
+		msgCards = p2Cards;
+		sprintf(message,"%s.%d.%d.%d.%d.%d.%d.%d.%d.%d.%d.%d.%d.%d","C2",msgCards[0],msgCards[1],msgCards[2],msgCards[3],msgCards[4],msgCards[5],msgCards[6],msgCards[7],msgCards[8],msgCards[9],msgCards[10],msgCards[11],msgCards[12]);
+	}	
+}
+
+void buildTurnMessage(int player, int p1Pick, int p2Pick, int p3Pick, int p4Pick)
+{	
+	if(player == 1)
+	{
+		sprintf(message,"%s.%d.%d.%d","T1",p2Pick,p3Pick,p4Pick);
+		printf("       %s.%d.%d.%d","T1",p2Pick,p3Pick,p4Pick);
+	}
+	else if(player == 2)
+	{
+		sprintf(message,"%s.%d.%d.%d","T2",p1Pick,p3Pick,p4Pick);
+		printf("       %s.%d.%d.%d","T2",p1Pick,p3Pick,p4Pick);
+	}	
+}
+
 void compareMessage(char * receivedMsg, int turn)
 {
 	if (strcmp(receivedMsg, "START") == 0)
     {
-		shuffligCards();
+		memset(recMessage, 0, BUFFERSIZE+1);
+		shuffligCards();		
 
 		printf(" [-]A játék elkezdődött.\n");			
 				
-		printf("  [-]1. játékos kártyái: ");
+		printf("  [-]1. játékos(P1) kártyái: ");
 		for (int i = 0; i < 13; i++)
 		{
 			printf("%d ",p1Cards[i]);
 		}		
 		printf("\n");
-		printf("  [-]2. játékos kártyái: ");
+		printf("  [-]2. játékos(P2) kártyái: ");
 		for (int i = 0; i < 13; i++)
 		{
 			printf("%d ",p2Cards[i]);
@@ -168,8 +232,28 @@ void compareMessage(char * receivedMsg, int turn)
 		printf("\n");					
 		printf("   [-]A(z) %d. játékos kezd!\n", firstPlayer);
 
-		sendMessage("cards1",clientSocket);
-		sendMessage("cards2",clientSocket2);		
+		buildCardsMessage(1);
+		sendMessage(message,clientSocket);
+		buildCardsMessage(2);
+		sendMessage(message,clientSocket2);		
+
+		if (whoseTurn == 3 || whoseTurn == 4)
+		{		
+			pickCard(3);
+			pickCard(4);
+			whoseTurn = 4;
+		}
+
+	/*else if(whoseTurn == 1)
+		{
+			//waitForP1Pick
+			//SendP2 P1Pick
+		}
+		else if(whoseTurn == 2)
+		{
+			//waitForP2Pick
+			//SendP1 P2Pick,P3Pick,P4Pick
+		}*/		
 	}
 	else if(strcmp(receivedMsg, "FELADOM") == 0)
 	{
@@ -195,7 +279,7 @@ void compareMessage(char * receivedMsg, int turn)
 	}
 	else if(strcmp(receivedMsg, "VEGE") == 0)
 	{
-		if(turn == 1)
+		if(whoseTurn == 1)
 		{
 			printf(" [-]Az első játékos kilépett.\n");			
 		}
@@ -212,6 +296,24 @@ void compareMessage(char * receivedMsg, int turn)
 		close(clientSocket);
 		close(serverSocket);
 	}
+	else
+	{
+		char *token;
+		token = strtok(receivedMsg,".");
+		
+		if (strcmp(token,"P1P") == 0)
+		{
+			token = strtok(NULL,".");
+			printf("P1P: %s",token);
+			whoseTurn = 2;
+		}
+		else if(strcmp(token,"P2P") == 0)
+		{
+			token = strtok(NULL,".");
+			printf("P2P: %s",token);
+			whoseTurn = 3;
+		}								
+	}	
 }
 
 void main(){
@@ -249,16 +351,27 @@ void main(){
 	{
 		if (whoseTurn == 1)
 		{
+			printf("[ReceiveP1]\n");
+			printf("%s",recMessage);
 			receiveMessage(clientSocket, whoseTurn);
 		}
 		else if (whoseTurn == 2)
 		{
+			printf("[ReceiveP2]\n");
+			printf("%s",recMessage);
 			receiveMessage(clientSocket2, whoseTurn);
 		}					
+		else if (whoseTurn == 4)
+		{
+			printf("[SendP1]\n");
+			buildTurnMessage(1,p1PickedCard,p2PickedCard,p3PickedCard,p4PickedCard);
+			sendMessage(message,clientSocket);
+			whoseTurn = 1;
+		}
 	}
 
     printf("[+]Closing the connection.\n");
 
-		close(clientSocket);
-		close(serverSocket);
+	close(clientSocket);
+	close(serverSocket);
 }
